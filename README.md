@@ -75,7 +75,7 @@ Before running the pipeline, ensure that you have the following installed:
    Clone the project repository to your local environment.
 
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/mohamedelsayed10/openflights-ETL-Pipeline.git
 2. **Navigate to the Appropriate Folder**
     ```bash
      cd etl_scripts
