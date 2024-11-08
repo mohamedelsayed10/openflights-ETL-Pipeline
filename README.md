@@ -1,4 +1,4 @@
-# Airline Data ETL Pipeline
+# openflights-ETL-Pipeline
 
 ## Overview
 This project is a data pipeline designed to collect, process, and analyze airline and flight route data from the OpenFlights dataset. 
@@ -75,7 +75,7 @@ Before running the pipeline, ensure that you have the following installed:
    Clone the project repository to your local environment.
 
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/mohamedelsayed10/openflights-ETL-Pipeline.git
 2. **Navigate to the Appropriate Folder**
     ```bash
      cd etl_scripts
