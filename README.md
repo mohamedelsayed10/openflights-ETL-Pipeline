@@ -1,4 +1,4 @@
-# Airline Data ETL Pipeline
+# openflights-ETL-Pipeline
 
 ## Overview
 This project is a data pipeline designed to collect, process, and analyze airline and flight route data from the OpenFlights dataset. 
