@@ -1,6 +1,8 @@
 import pandas as pd
 import numpy as np
 from geopy.distance import great_circle
+import os
+import sys
 
 
 
@@ -37,8 +39,13 @@ def transform_airports(airports):
     airports["time_zone_identifier"].fillna('Unknown zone identifier', inplace=True)
     airports["timezone_offset"].fillna('Unknown', inplace=True)
     airports['geom'] = 'POINT(' + airports['longitude'].astype(str) + ' ' + airports['latitude'].astype(str) + ')'
+      # Get the path to the parent directory
+    parent_directory = os.path.dirname(os.path.dirname(__file__))
 
-    airports.to_csv('.\data\transformed_data\airports.csv', index=False)
+    # Define the path to the 'rawdata' directory inside the parent directory
+    directory = os.path.join(parent_directory, 'Data', 'transformed_data')
+
+    airports.to_csv(os.path.join(directory, 'airports.csv'), index=False)
 
     return airports
 def transform_airlines(airlines):
@@ -55,8 +62,12 @@ def transform_airlines(airlines):
     airlines['icao_code'].fillna('Unknown', inplace=True)
     airlines['callsign'].fillna('Unknown', inplace=True)
     airlines['country'].fillna('Unknown', inplace=True)
+    parent_directory = os.path.dirname(os.path.dirname(__file__))
+
+    # Define the path to the 'rawdata' directory inside the parent directory
+    directory = os.path.join(parent_directory, 'Data', 'transformed_data')
    
-    airlines.to_csv('.\data\transformed_data\airlines.csv', index=False)
+    airlines.to_csv(os.path.join(directory, 'airlines.csv'), index=False)
     return airlines
 def transform_routes(routes, airports,airlines):
     routes.replace('\\N', np.nan, inplace=True)
@@ -111,13 +122,15 @@ def transform_routes(routes, airports,airlines):
     how='left').rename(columns={'id':'airline_id'})[['airline_id','flight_number','source_airport_id','destination_airport_id','codeshare','stopovers','equipment_type',"distance_km"]]
     routes.dropna(subset=['airline_id'], inplace=True)
     routes['airline_id'] = routes['airline_id'].astype(int)
-    routes.to_csv('.\data\transformed_data\routes.csv', index=False)
-    # Get unique airline codes from routes
-    # unique_airline_codes = routes['airline_code'].unique()
-    # unique_iata_codes = airlines['iata_code'].unique()
-    # missing_codes = [code for code in unique_airline_codes if code not in unique_iata_codes]
-    # routes=routes[~routes['airline_code'].isin(missing_codes)]
 
+    parent_directory = os.path.dirname(os.path.dirname(__file__))
+
+    # Define the path to the 'rawdata' directory inside the parent directory
+    directory = os.path.join(parent_directory, 'Data', 'transformed_data')
+
+    routes.to_csv(os.path.join(directory, 'routes.csv'), index=False)
+
+ 
     return routes
 
 

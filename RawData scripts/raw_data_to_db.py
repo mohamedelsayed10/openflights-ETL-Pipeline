@@ -2,8 +2,11 @@ import pandas as pd
 import psycopg2
 import threading
 from dotenv import load_dotenv
-from ..ETL_scripts.extract import extract_data
+import os
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
+from ETL_scripts.extract import extract_data
 
 import os
 # Function to setup database connection for each thread
@@ -185,3 +188,5 @@ def inset_raw_data_to_db():
 
 
 
+if __name__ == '__main__':
+    inset_raw_data_to_db()

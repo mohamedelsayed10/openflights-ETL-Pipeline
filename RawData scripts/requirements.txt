@@ -1,7 +1,5 @@
-pandas
+pandas>=2.0.0
 numpy
 geopy
-psycopg2
-tkinter
-dotenv
-os
+psycopg2-binary
+python-dotenv

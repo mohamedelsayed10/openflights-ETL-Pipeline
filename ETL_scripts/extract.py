@@ -1,4 +1,6 @@
 import pandas as pd
+import os
+import sys
 
 # URLs of the datasets
 def extract_data():
@@ -50,8 +52,16 @@ def extract_data():
         'stopovers',         # Number of stopovers (0 for direct flights)
         'equipment_type'     # Type of aircraft used for the flight
     ]
-    airlines.to_csv('./data/rawdata/airlines.csv', index=False)
-    airports.to_csv('./data/rawdata/airports.csv', index=False)
-    routes.to_csv('./data/rawdata/routes.csv', index=False)
+  # Get the path to the parent directory
+    parent_directory = os.path.dirname(os.path.dirname(__file__))
+
+    # Define the path to the 'rawdata' directory inside the parent directory
+    directory = os.path.join(parent_directory, 'Data', 'rawdata')
+
+    # Ensure the directory exists
+
+    airlines.to_csv(os.path.join(directory, 'airlines.csv'), index=False)
+    airports.to_csv(os.path.join(directory, 'airports.csv'), index=False)
+    routes.to_csv(os.path.join(directory, 'routes.csv'), index=False)
     return airports, airlines, routes
 
