@@ -1,0 +1,7 @@
+pandas
+numpy
+geopy
+psycopg2
+tkinter
+dotenv
+os
