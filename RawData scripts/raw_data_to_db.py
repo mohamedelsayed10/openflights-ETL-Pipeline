@@ -1,5 +1,6 @@
 import pandas as pd
 import psycopg2
+from  psycopg2 import sql
 import threading
 from dotenv import load_dotenv
 import os
@@ -10,7 +11,7 @@ from ETL_scripts.extract import extract_data
 
 import os
 # Function to setup database connection for each thread
-def setup_database_connection():
+def setup_database_connection(data_base_name):
     # Define your connection parameters
     
 # Load environment variables from .env file
@@ -21,7 +22,6 @@ def setup_database_connection():
     DB_PORT = os.getenv('DB_PORT')
     DB_USER = os.getenv('DB_USER')
     DB_PASSWORD = os.getenv('DB_PASSWORD')
-    DB_NAME = os.getenv('DB_NAME')
 
 
     # Connect to the database
@@ -30,7 +30,7 @@ def setup_database_connection():
             host=DB_HOST,
             port=DB_PORT,
             user=DB_USER,
-            dbname=DB_NAME,
+            dbname=data_base_name,
             password=DB_PASSWORD
             
         )
@@ -42,7 +42,7 @@ def setup_database_connection():
 
 
 def insert_airports(airports):
-    conn = setup_database_connection()
+    conn = setup_database_connection("openflights")
     cursor = conn.cursor()
     
     for index, row in airports.iterrows():
@@ -63,7 +63,7 @@ def insert_airports(airports):
 
 # Insert airlines function
 def insert_airlines(airlines):
-    conn = setup_database_connection()
+    conn = setup_database_connection("openflights")
     cursor = conn.cursor()
     
     for index, row in airlines.iterrows():
@@ -82,7 +82,7 @@ def insert_airlines(airlines):
 
 # Insert routes function
 def insert_routes(routes):
-    conn = setup_database_connection()
+    conn= setup_database_connection("openflights")
     cursor = conn.cursor()
     
     for index, row in routes.iterrows():
@@ -175,10 +175,24 @@ def inset_raw_data_to_db():
 
     """
 
-    conn=setup_database_connection()
+    conn=setup_database_connection("postgres")
     conn.autocommit = True 
     cursor = conn.cursor()
     print("connect")
+    cursor.execute("SELECT 1 FROM pg_catalog.pg_database WHERE datname = %s", ("openflights",))
+    exists = cursor.fetchone()
+
+    if exists:
+        print("Database openflights already exists.")
+    else:
+        # Create the new database if it doesn't exist
+        cursor.execute(sql.SQL("CREATE DATABASE {}").format(
+            sql.Identifier("openflights")))
+        print("Database openflights created successfully.")
+    conn=setup_database_connection("openflights")
+    conn.autocommit = True 
+    cursor = conn.cursor()
+    print("connect for insert")
     cursor.execute(sql_script)
     print("Schema, tables created..")
     airports, airlines, routes = extract_data()

@@ -1,7 +1,9 @@
 import psycopg2
 from dotenv import load_dotenv
 import os
-def setup_database_connection():
+from psycopg2 import sql
+
+def setup_database_connection(data_base_name):
     # Define your connection parameters
     
 # Load environment variables from .env file
@@ -19,7 +21,7 @@ def setup_database_connection():
         connection = psycopg2.connect(
             host=DB_HOST,
             port=DB_PORT,
-            dbname=DB_NAME,
+            dbname=data_base_name,
             user=DB_USER,
             password=DB_PASSWORD
         )
@@ -75,7 +77,21 @@ def create():
 
     CREATE INDEX IF NOT EXISTS idx_airport_geom ON db_SCHEMA1.dim_airports USING GIST (geom);
     """
-    conn=setup_database_connection()
+    conn=setup_database_connection("postgres")
+    conn.autocommit = True 
+    cursor = conn.cursor()
+    database_name = "openflights"
+    cursor.execute("SELECT 1 FROM pg_catalog.pg_database WHERE datname = %s", (database_name,))
+    exists = cursor.fetchone()
+
+    if exists:
+        print(f"Database '{database_name}' already exists.")
+    else:
+        # Create the new database if it doesn't exist
+        cursor.execute(sql.SQL("CREATE DATABASE {}").format(
+            sql.Identifier(database_name)))
+        print(f"Database '{database_name}' created successfully.")
+    conn=setup_database_connection(database_name)
     conn.autocommit = True 
     cursor = conn.cursor()
     cursor.execute(sql_script)

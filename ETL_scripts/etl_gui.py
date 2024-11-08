@@ -5,6 +5,9 @@ from create_schema import create
 from extract import extract_data
 from transform import transform_data
 from load import load_data
+import warnings
+warnings.filterwarnings('ignore', category=FutureWarning)
+
 
 # GUI Setup
 class ETLApp:
