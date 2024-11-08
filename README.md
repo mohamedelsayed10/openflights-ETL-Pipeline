@@ -100,9 +100,15 @@ Database Configuration: Edit the .env file in the root directory of the project.
     Without the GUI:
     ``` bash
     python etl.py
-## 5.output
-1. ***Data warehouse schema***
-2. ***ETL GUI***
-3. ***Simple dashboard***
+## 5. Output
+
+1. **📊 Data Warehouse Schema**  
+   ![Data Warehouse Schema](img/Picture1.png)
+
+2. **🔧 ETL GUI**  
+   ![ETL GUI](img/Picture3.png)
+
+3. **📈 Simple Dashboard**  
+   ![Simple Dashboard](img/Picture2.png)
 
 
