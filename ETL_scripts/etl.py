@@ -11,7 +11,7 @@ warnings.filterwarnings('ignore', category=FutureWarning)
 def run_etl_pipeline():
     # Step 1: Create schema
     create()
-    print("scema created")
+    print("schema created")
 
     # Step 2: Extract data
     airports, airlines, routes = extract_data()
@@ -23,6 +23,7 @@ def run_etl_pipeline():
 
     # Step 4: Load data
     load_data(airports, airlines, routes)
+    print("waiting for data to load")
     print("data loaded")
     print("ETL pipeline completed successfully!")
 
